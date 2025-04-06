@@ -7,7 +7,7 @@ const chalk = require('chalk');
 // Config dosyası
 const config = require('./config.json');
 
-// Renkler falan
+// Renk 
 const timeColor = chalk.yellow;
 const successColor = chalk.green;
 const errorColor = chalk.red;
@@ -15,7 +15,7 @@ const retryColor = chalk.blue;
 const startColor = chalk.red;
 const loginColor = chalk.magenta;
 
-// Her hesap için ayrı steamcommunity sikimsoniği
+// İki hesap içinde ayrı SteamCommunity nesneleri
 const account1Community = new SteamCommunity();
 const account2Community = new SteamCommunity();
 const account1Client = new SteamUser();
@@ -44,10 +44,10 @@ function getTime() {
     return timeColor(`[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}]`);
 }
 
-// Bot başlangıç
-console.log(startColor("Kaan's Steam Trade Farming Bot"));
+// Bot başlatıldığında
+console.log(startColor("Kaan's Steam Trade Farm Bot"));
 
-// hesap 1 giriş
+// Account 1 login
 function loginAccount1() {
     console.log(loginColor(`${getTime()} Logging in Account 1...`));
     const authCode = SteamTotp.generateAuthCode(account1.sharedSecret);
@@ -82,7 +82,7 @@ account1Client.on('error', (err) => {
     }
 });
 
-// hesap 2 giriş
+// Account 2 login
 function loginAccount2() {
     console.log(loginColor(`${getTime()} Logging in Account 2...`));
     const authCode = SteamTotp.generateAuthCode(account2.sharedSecret);
@@ -223,10 +223,12 @@ function sendTrade(senderManager, senderCommunity, senderAccount, receiverAccoun
     });
 }
 
-// Gelen takasları otomatik kabul et sonra geri gönder
+// Gelen takasları otomatik kabul edip ve geri gönderme
 function setupAutoAcceptAndReturn(manager, community, account, otherAccount) {
+    let lastTradeTime = Date.now();
     manager.on('newOffer', (offer) => {
         console.log(`${getTime()} New trade received, ID: ${offer.id}, from: ${offer.partner}`);
+        lastTradeTime = Date.now();
 
         if (offer.itemsToGive.length === 0 && offer.itemsToReceive.length > 0) {
             console.log(`${getTime()} Gift trade detected, ID: ${offer.id}, accepting...`);
@@ -251,6 +253,7 @@ function setupAutoAcceptAndReturn(manager, community, account, otherAccount) {
                             console.log(errorColor(`${getTime()} Send back error! ${err.message}`));
                         } else {
                             console.log(`${getTime()} Trade cycle continues...`);
+                            lastTradeTime = Date.now(); // Son başarılı işlem zamanını güncelle
                         }
                     });
                 });
@@ -260,6 +263,15 @@ function setupAutoAcceptAndReturn(manager, community, account, otherAccount) {
             console.log(`${getTime()} Trade #${offer.id} is not a gift, not accepted`);
         }
     });
+
+    // 45 saniyelik kontrol
+    setInterval(() => {
+        const timeSinceLastTrade = Date.now() - lastTradeTime;
+        if (timeSinceLastTrade > 45000) { // 45 saniye
+            console.log(retryColor(`${getTime()} No trade activity for 45 seconds, restarting cycle...`));
+            startTradeLoop();
+        }
+    }, 10000); // Her 10 saniyede bir kontrol
 }
 
 // Takas döngüsü
@@ -273,6 +285,8 @@ function startTradeLoop() {
             if (err) {
                 console.log(errorColor(`${getTime()} Initial trade error! ${err.message}`));
                 setTimeout(startTradeLoop, 60000);
+            } else {
+                currentHolder = 'account2'; // Sıra değişiyor
             }
         });
     } else {
@@ -280,12 +294,14 @@ function startTradeLoop() {
             if (err) {
                 console.log(errorColor(`${getTime()} Initial trade error! ${err.message}`));
                 setTimeout(startTradeLoop, 60000);
+            } else {
+                currentHolder = 'account1'; // Sıra değişiyor
             }
         });
     }
 }
 
-// Her iki hesap hazır olduğunda döngüyü başlat
+//Döngü başlatma
 let account1Ready = false;
 let account2Ready = false;
 
@@ -307,11 +323,11 @@ account2Client.on('webSession', () => {
     }
 });
 
-// İlk giriş denemeleri
+//Hesaplara giriş
 loginAccount1();
 loginAccount2();
 
-// Botu durdurmak için Ctrl+C
+//Botu durdurma
 process.on('SIGINT', () => {
     console.log(`${getTime()} Bot shutting down...`);
     account1Client.logOff();
