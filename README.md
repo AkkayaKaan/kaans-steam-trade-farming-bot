@@ -3,9 +3,13 @@ Welcome to **Kaan's Steam Trade Farming Bot**! This bot automates trading betwee
 
 ## Features
 ✅ **Automated Trading**: Sends and accepts trades automatically.
+
 ✅ **Item Cycling**: Loops a single item (e.g., Scrap Metal) between accounts.
+
 ✅ **Error Handling**: Retries failed actions up to 3 times with 15-second delays.
+
 ✅ **Simple Setup**: Includes batch files for quick installation on Windows.
+
 
 ## Prerequisites
 Ensure you have the following before setting up the bot:
