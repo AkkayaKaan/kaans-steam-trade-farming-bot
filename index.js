@@ -4,10 +4,10 @@ const SteamTotp = require('steam-totp');
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const chalk = require('chalk');
 
-// Config dosyasını içe aktar
+// Config dosyası
 const config = require('./config.json');
 
-// Renk tanımlamaları
+// Renkler falan
 const timeColor = chalk.yellow;
 const successColor = chalk.green;
 const errorColor = chalk.red;
@@ -15,7 +15,7 @@ const retryColor = chalk.blue;
 const startColor = chalk.red;
 const loginColor = chalk.magenta;
 
-// Her hesap için ayrı SteamCommunity nesneleri
+// Her hesap için ayrı steamcommunity sikimsoniği
 const account1Community = new SteamCommunity();
 const account2Community = new SteamCommunity();
 const account1Client = new SteamUser();
@@ -33,7 +33,7 @@ const account2Manager = new TradeOfferManager({
     useAccessToken: true
 });
 
-// Config'den bilgiler
+// Config'den info
 const account1 = config.account1;
 const account2 = config.account2;
 const itemConfig = config.item;
@@ -44,10 +44,10 @@ function getTime() {
     return timeColor(`[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}]`);
 }
 
-// Bot başlatıldığında
+// Bot başlangıç
 console.log(startColor("Kaan's Steam Trade Farming Bot"));
 
-// Account 1 login
+// hesap 1 giriş
 function loginAccount1() {
     console.log(loginColor(`${getTime()} Logging in Account 1...`));
     const authCode = SteamTotp.generateAuthCode(account1.sharedSecret);
@@ -82,7 +82,7 @@ account1Client.on('error', (err) => {
     }
 });
 
-// Account 2 login
+// hesap 2 giriş
 function loginAccount2() {
     console.log(loginColor(`${getTime()} Logging in Account 2...`));
     const authCode = SteamTotp.generateAuthCode(account2.sharedSecret);
@@ -223,7 +223,7 @@ function sendTrade(senderManager, senderCommunity, senderAccount, receiverAccoun
     });
 }
 
-// Gelen takasları otomatik kabul et ve geri gönder
+// Gelen takasları otomatik kabul et sonra geri gönder
 function setupAutoAcceptAndReturn(manager, community, account, otherAccount) {
     manager.on('newOffer', (offer) => {
         console.log(`${getTime()} New trade received, ID: ${offer.id}, from: ${offer.partner}`);
@@ -285,7 +285,7 @@ function startTradeLoop() {
     }
 }
 
-// Her iki istemci hazır olduğunda döngüyü başlat
+// Her iki hesap hazır olduğunda döngüyü başlat
 let account1Ready = false;
 let account2Ready = false;
 
