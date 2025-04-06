@@ -1,6 +1,10 @@
 # Kaan's Steam Trade Farming Bot
 Welcome to **Kaan's Steam Trade Farming Bot**! This bot automates trading between two Steam accounts, endlessly cycling the item named Scrap Metal from TF2. It’s optimized for Steam trade farming and designed to increase the number of trades performed on Steam.
 
+## Project Status
+
+> **NOTE:** This project is currently in the development stage. It is possible to encounter various bugs from time to time. No security issues have been identified; however, the submitted scrap metal may occasionally be sent to a secondary account instead of being returned through the loop. For now, it only supports TF2 scrap metal, but I plan to add support for other games and items in the future.
+
 ## Features
 ✅ **Automated Trading**: Sends and accepts trades automatically.
 
