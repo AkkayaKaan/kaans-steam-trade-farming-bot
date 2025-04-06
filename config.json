@@ -1,0 +1,20 @@
+{
+    "account1": {
+      "username": "username",
+      "password": "password",
+      "sharedSecret": "sharedsecret",
+      "identitySecret": "identitysecret",
+      "tradeUrl": "tradeurl"
+    },
+    "account2": {
+      "username": "username",
+      "password": "password",
+      "sharedSecret": "sharedsecret=",
+      "identitySecret": "identitysecret",
+      "tradeUrl": "tradeurl"
+    },
+    "item": {
+      "appid": 440,
+      "contextid": "2"
+    }
+  }

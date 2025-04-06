@@ -1,0 +1,30 @@
+{
+  "name": "kaans-trade-farming-bot",
+  "version": "1.0.0",
+  "description": "A Steam trade farming bot made by Kaan Akkaya",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "steam",
+    "trade",
+    "bot",
+    "trade",
+    "farm",
+    "bot",
+    "steam",
+    "trade",
+    "farming",
+    "bot"
+  ],
+  "author": "Kaan Akkaya",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "steam-totp": "^2.1.2",
+    "steam-tradeoffer-manager": "^2.11.7",
+    "steam-user": "^5.2.0",
+    "steamcommunity": "^3.48.6"
+  }
+}

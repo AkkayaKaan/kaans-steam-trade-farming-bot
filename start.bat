@@ -1,0 +1,3 @@
+@echo off
+echo Starting Kaan's Steam Trade Farm Bot...
+node index.js
