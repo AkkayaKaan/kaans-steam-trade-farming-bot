@@ -25,7 +25,7 @@ Ensure you have the following before setting up the bot:
 ### 1. Clone or Download the Repository
 - **Clone with Git**:
   ```bash
-  git clone https://github.com/AkkayaKaan/kaans-steam-trade-farming-bot.git
+  git clone https://github.com/AkkayaKaan/kaans-steam-trade-farming-bot
   cd kaans-steam-trade-farming-bot
   ```
 - **Download ZIP**: Extract the ZIP file from GitHub.
